@@ -58,10 +58,16 @@ function agregarProducto() {
         productos.push(nuevoProducto);
         console.log(productos);
 
-        document.getElementById('nombreProducto').value = '';
-        document.getElementById('precioProducto').value = '';
-        document.getElementById('descripcionProducto').value = '';
+       VaciarCampos();
 
     }
+}
 
+                ////////////////PARTE DE MARCO/////////////////////
+function VaciarCampos() {
+    document.getElementById("nombreProducto").value = ""
+    document.getElementById("descripcionProducto").value = ""
+    document.getElementById("categoriaProducto").value = ""
+    document.getElementById("precioProducto").value = ""
+    document.getElementById("imagenInput").value = ""
 }
