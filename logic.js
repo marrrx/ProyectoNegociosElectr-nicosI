@@ -79,3 +79,26 @@ function Editar(td) {
     document.getElementById("categoriaProducto").value = fila.cells[3].innerHTML
     document.getElementById("imagenInput").value = fila.cells[4].innerHTML
 }
+function Actualizar() {
+    var nombreProducto = document.getElementById('nombreProducto').value;
+    var precioProducto = document.getElementById('precioProducto').value;
+    var descripcionProducto = document.getElementById('descripcionProducto').value;
+    var categoriaProducto = document.getElementById('categoriaProducto').value;
+    var imagenInput = document.getElementById('imagenInput');
+
+    fila.cells[0].innerHTML = nombreProducto
+    fila.cells[1].innerHTML = precioProducto
+    fila.cells[2].innerHTML = descripcionProducto
+    fila.cells[3].innerHTML = categoriaProducto
+    
+   let imgElement = document.createElement('img');
+    imgElement.src = URL.createObjectURL(imagenInput.files[0]);
+    imgElement.style.maxWidth = '100px';
+    imgElement.style.height = 'auto';
+    fila.cells[4].innerHTML = "";
+    fila.cells[4].appendChild(imgElement);
+    VaciarCampos();
+
+    document.getElementById("nombreProducto").focus()
+}
+            ////////////////////////////////////////////////////////////////
