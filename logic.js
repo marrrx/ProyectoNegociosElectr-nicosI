@@ -71,3 +71,11 @@ function VaciarCampos() {
     document.getElementById("precioProducto").value = ""
     document.getElementById("imagenInput").value = ""
 }
+function Editar(td) {
+    fila = td.parentElement.parentElement
+    document.getElementById("nombreProducto").value = fila.cells[0].innerHTML
+    document.getElementById("precioProducto").value = fila.cells[1].innerHTML
+    document.getElementById("descripcionProducto").value = fila.cells[2].innerHTML
+    document.getElementById("categoriaProducto").value = fila.cells[3].innerHTML
+    document.getElementById("imagenInput").value = fila.cells[4].innerHTML
+}
