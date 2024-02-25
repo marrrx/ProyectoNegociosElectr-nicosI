@@ -3,14 +3,12 @@ var productos = [];
 var imagenes = [];
 
 function agregarCategoria() {
-
     var nombreCategoria = document.getElementById('nombreCategoria').value;
     var nuevaCategoria = {
         id: categorias.length + 1,
         nombre: nombreCategoria
     };
     categorias.push(nuevaCategoria);
-
 
     ////////////PARTE DE MARCO///////////////
     var tablaCategorias = document.getElementById('categorias').getElementsByTagName('tbody')[0];
@@ -22,15 +20,11 @@ function agregarCategoria() {
 
     celdaID.innerText = nuevaCategoria.id;
     celdaNombre.innerText = nuevaCategoria.nombre;
-
     ////////////////////////////////////////////
-
 
     document.getElementById('nombreCategoria').value = '';
     actualizarSelect()
-
 }
-
 
 function actualizarSelect() {
     var selectCategorias = document.getElementById('categoriaProducto');
@@ -50,7 +44,6 @@ function agregarProducto() {
     var categoriaProducto = document.getElementById('categoriaProducto').value;
     var imagenInput = document.getElementById('imagenInput');
 
-
     var nuevoProducto = {
         id: productos.length + 1,
         nombre: nombreProducto.trim(),
@@ -62,7 +55,6 @@ function agregarProducto() {
     productos.push(nuevoProducto);
 
     ////////////////PARTE DE MARCO/////////////////////
-
     var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
     var fila = tablaProductos.insertRow(tablaProductos.length);
     celdaNombre = fila.insertCell(0);
@@ -86,7 +78,6 @@ function agregarProducto() {
     celdaImagen.appendChild(imagen);
     ////////////////////////////////////////////////////////////////
 
-
     var nuevaImagen = {
         id: imagenes.length + 1,
         url: imagen.src,
@@ -94,12 +85,7 @@ function agregarProducto() {
     };
     imagenes.push(nuevaImagen);
 
-
-
-
     VaciarCampos();
-
-
 }
 
 ////////////////PARTE DE MARCO/////////////////////
@@ -110,6 +96,7 @@ function VaciarCampos() {
     document.getElementById("precioProducto").value = ""
     document.getElementById("imagenInput").value = ""
 }
+
 function Editar(td) {
     fila = td.parentElement.parentElement
     document.getElementById("nombreProducto").value = fila.cells[0].innerHTML
@@ -118,10 +105,12 @@ function Editar(td) {
     document.getElementById("categoriaProducto").value = fila.cells[3].innerHTML
     document.getElementById("imagenInput").value = fila.cells[4].innerHTML
 }
+
 function EditarCategoria(td) {
     filacategoria = td.parentElement.parentElement
     document.getElementById("nombreCategoria").value = filacategoria.cells[1].innerHTML
 }
+
 function Actualizar() {
     var nombreProducto = document.getElementById('nombreProducto').value;
     var precioProducto = document.getElementById('precioProducto').value;
@@ -141,11 +130,27 @@ function Actualizar() {
     fila.cells[4].innerHTML = "";
     fila.cells[4].appendChild(imgElement);
     VaciarCampos();
-
 }
+
 function ActualizarCategoria() {
     var nombreCategoria = document.getElementById('nombreCategoria').value;
     filacategoria.cells[1].innerHTML = nombreCategoria
     document.getElementById('nombreCategoria').value = '';
 }
 ////////////////////////////////////////////////////////////////
+
+function Borrar(button) {
+    var fila = button.closest('tr'); 
+    var index = fila.rowIndex - 1; 
+    productos.splice(index, 1); 
+
+    fila.remove();
+}
+
+function BorrarCategoria(button){
+    var fila = button.closest('tr');
+    var index = fila.rowIndex - 1;
+    categorias.splice(index, 1); 
+
+    fila.remove();
+}
