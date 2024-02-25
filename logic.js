@@ -10,17 +10,15 @@ function agregarCategoria() {
     };
     categorias.push(nuevaCategoria);
 
-    ////////////PARTE DE MARCO///////////////
     var tablaCategorias = document.getElementById('categorias').getElementsByTagName('tbody')[0];
     var filacategoria = tablaCategorias.insertRow(tablaCategorias.length);
     celdaID = filacategoria.insertCell(0);
     celdaNombre = filacategoria.insertCell(1);
     celdaAcciones = filacategoria.insertCell(2).innerHTML = `<input class="submit" type="button" onClick="EditarCategoria(this)" value="Editar" >
-                                                <input class="submit" type="button" onClick="BorrarCategoria(this)" value="Borrar" >`
+                                            <input class="submit" type="button" onClick="BorrarCategoria(this)" value="Borrar" >`
 
     celdaID.innerText = nuevaCategoria.id;
     celdaNombre.innerText = nuevaCategoria.nombre;
-    ////////////////////////////////////////////
 
     document.getElementById('nombreCategoria').value = '';
     actualizarSelect()
@@ -54,7 +52,6 @@ function agregarProducto() {
     };
     productos.push(nuevoProducto);
 
-    ////////////////PARTE DE MARCO/////////////////////
     var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
     var fila = tablaProductos.insertRow(tablaProductos.length);
     celdaNombre = fila.insertCell(0);
@@ -63,12 +60,13 @@ function agregarProducto() {
     celdaCategoria = fila.insertCell(3);
     celdaImagen = fila.insertCell(4);
     celdaAcciones = fila.insertCell(5).innerHTML = `<input class="submit" type="button" onClick="Editar(this)" value="Editar" >
-                                                <input class="submit" type="button" onClick="Borrar(this)" value="Borrar" >
-                                                <input class="submit" type="button" onClick="Mostrar(this)" value="Mostrar" >`
+                                            <input class="submit" type="button" onClick="Borrar(this)" value="Borrar" >
+                                            <input class="submit" type="button" onClick="Mostrar(this)" value="Mostrar" >`
 
     celdaNombre.innerText = nuevoProducto.nombre;
     celdaPrecio.innerText = nuevoProducto.precio;
-    celdaDescripcion.innerText = nuevoProducto.descripcion;
+    // Para la descripción, solo mostramos un fragmento
+    celdaDescripcion.innerText = descripcionProducto.substring(0, 20) + '...';
     celdaCategoria.innerText = nuevoProducto.categoria;
 
     var imagen = document.createElement('img');
@@ -76,7 +74,6 @@ function agregarProducto() {
     imagen.style.maxWidth = '100px';
     imagen.style.height = 'auto';
     celdaImagen.appendChild(imagen);
-    ////////////////////////////////////////////////////////////////
 
     var nuevaImagen = {
         id: imagenes.length + 1,
@@ -89,7 +86,33 @@ function agregarProducto() {
     VaciarCampos();
 }
 
-////////////////PARTE DE MARCO/////////////////////
+function Mostrar(button) {
+    var fila = button.closest('tr');
+    var descripcionCell = fila.cells[2];
+    var precioCell = fila.cells[1];
+    var categoriaCell = fila.cells[3];
+    var imagenCell = fila.cells[4];
+
+    if (descripcionCell.classList.contains('mostrado')) {
+        // Si ya está mostrado, lo ocultamos
+        descripcionCell.classList.remove('mostrado');
+        precioCell.style.display = 'none';
+        categoriaCell.style.display = 'none';
+        imagenCell.style.display = 'none';
+
+        descripcionCell.innerText = productos[fila.rowIndex - 1].descripcion.substring(0, 1) + '...';
+    } else {
+        // Si está oculto, lo mostramos completamente
+        descripcionCell.classList.add('mostrado');
+        precioCell.style.display = '';
+        categoriaCell.style.display = '';
+        imagenCell.style.display = '';
+
+        descripcionCell.innerText = productos[fila.rowIndex - 1].descripcion;
+    }
+}
+
+
 function VaciarCampos() {
     document.getElementById("nombreProducto").value = ""
     document.getElementById("descripcionProducto").value = ""
@@ -121,7 +144,7 @@ function Actualizar() {
 
     fila.cells[0].innerHTML = nombreProducto
     fila.cells[1].innerHTML = precioProducto
-    fila.cells[2].innerHTML = descripcionProducto
+    fila.cells[2].innerHTML = descripcionProducto.substring(0, 20) + '...'
     fila.cells[3].innerHTML = categoriaProducto
 
     let imgElement = document.createElement('img');
@@ -138,13 +161,11 @@ function ActualizarCategoria() {
     filacategoria.cells[1].innerHTML = nombreCategoria
     document.getElementById('nombreCategoria').value = '';
 }
-////////////////////////////////////////////////////////////////
 
 function Borrar(button) {
-    var fila = button.closest('tr'); 
-    var index = fila.rowIndex - 1; 
-    productos.splice(index, 1); 
-
+    var fila = button.closest('tr');
+    var index = fila.rowIndex - 1;
+    productos.splice(index, 1);
     fila.remove();
 }
 
@@ -158,7 +179,7 @@ function BorrarCategoria(button) {
     categorias.splice(index, 1);
 
     fila.remove();
-    actualizarSelect(); 
+    actualizarSelect();
 
     var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
     for (var i = tablaProductos.rows.length - 1; i >= 0; i--) {
