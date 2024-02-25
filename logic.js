@@ -64,6 +64,7 @@ function agregarProducto() {
     celdaImagen = fila.insertCell(4);
     celdaAcciones = fila.insertCell(5).innerHTML = `<input class="submit" type="button" onClick="Editar(this)" value="Editar" >
                                                 <input class="submit" type="button" onClick="Borrar(this)" value="Borrar" >
+                                                <input class="submit" type="button" onClick="Ocultar(this)" value="Ocultar" >
                                                 <input class="submit" type="button" onClick="Mostrar(this)" value="Mostrar" >`
 
     celdaNombre.innerText = nuevoProducto.nombre;
@@ -167,3 +168,40 @@ function BorrarCategoria(button) {
         }
     }
 }
+
+// Define la función Mostrar
+function Mostrar(button) {
+    var tablaProductos = document.getElementById("tabla_productos").getElementsByTagName('tbody')[0];
+    tablaProductos.innerHTML = "";
+
+    productos.forEach(producto => {
+        var fila = tablaProductos.insertRow();
+
+        var celdaNombre = fila.insertCell(0);
+        celdaNombre.innerHTML = producto.nombre;
+
+        var celdaPrecio = fila.insertCell(1);
+        celdaPrecio.innerHTML = producto.precio;
+
+        var celdaDescripcion = fila.insertCell(2);
+        celdaDescripcion.innerHTML = producto.descripcion;
+
+        var celdaCategoria = fila.insertCell(3);
+        celdaCategoria.innerHTML = producto.categoria;
+
+        var celdaImagen = fila.insertCell(4);
+        celdaImagen.innerHTML = `<img src="${producto.imagen}" width="100" height="100">`;
+
+        var celdaAcciones = fila.insertCell(5).innerHTML = `<input class="submit" type="button" onClick="Editar(this)" value="Editar" >
+        <input class="submit" type="button" onClick="Borrar(this)" value="Borrar" >
+        <input class="submit" type="button" onClick="Ocultar(this)" value="Ocultar" >
+        <input class="submit" type="button" onClick="Mostrar(this)" value="Mostrar" >`
+    });
+}
+
+// Define la función Ocultar
+function Ocultar(button) {
+    var tablaProductos = document.getElementById("tabla_productos").getElementsByTagName('tbody')[0];
+    tablaProductos.innerHTML = "";
+}
+
