@@ -85,6 +85,7 @@ function agregarProducto() {
     };
     imagenes.push(nuevaImagen);
 
+    actualizarSelect();
     VaciarCampos();
 }
 
@@ -147,10 +148,22 @@ function Borrar(button) {
     fila.remove();
 }
 
-function BorrarCategoria(button){
+function BorrarCategoria(button) {
     var fila = button.closest('tr');
     var index = fila.rowIndex - 1;
-    categorias.splice(index, 1); 
+    var categoriaID = categorias[index].id;
+
+    productos = productos.filter(producto => producto.categoria !== categoriaID);
+
+    categorias.splice(index, 1);
 
     fila.remove();
+    actualizarSelect(); 
+
+    var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
+    for (var i = tablaProductos.rows.length - 1; i >= 0; i--) {
+        if (tablaProductos.rows[i].cells[3].innerText === categoriaID.toString()) {
+            tablaProductos.deleteRow(i);
+        }
+    }
 }
