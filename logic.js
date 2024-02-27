@@ -4,24 +4,29 @@ var imagenes = [];
 
 function agregarCategoria() {
     var nombreCategoria = document.getElementById('nombreCategoria').value;
-    var nuevaCategoria = {
-        id: categorias.length + 1,
-        nombre: nombreCategoria
-    };
-    categorias.push(nuevaCategoria);
+    if (nombreCategoria.trim() !== '') {
+        var nuevaCategoria = {
+            id: categorias.length + 1,
+            nombre: nombreCategoria
+        };
+        categorias.push(nuevaCategoria);
 
-    var tablaCategorias = document.getElementById('categorias').getElementsByTagName('tbody')[0];
-    var filacategoria = tablaCategorias.insertRow(tablaCategorias.length);
-    celdaID = filacategoria.insertCell(0);
-    celdaNombre = filacategoria.insertCell(1);
-    celdaAcciones = filacategoria.insertCell(2).innerHTML = `<input class="submit" type="button" onClick="EditarCategoria(this)" value="Editar" >
-                                            <input class="submit" type="button" onClick="BorrarCategoria(this)" value="Borrar" >`
+        var tablaCategorias = document.getElementById('categorias').getElementsByTagName('tbody')[0];
+        var filacategoria = tablaCategorias.insertRow(tablaCategorias.length);
+        celdaID = filacategoria.insertCell(0);
+        celdaNombre = filacategoria.insertCell(1);
+        celdaAcciones = filacategoria.insertCell(2).innerHTML = `<input class="btn btn-warning" type="button" onClick="EditarCategoria(this)" value="Editar" >
+                                            <input class="btn btn-danger" type="button" onClick="BorrarCategoria(this)" value="Borrar" >`
 
-    celdaID.innerText = nuevaCategoria.id;
-    celdaNombre.innerText = nuevaCategoria.nombre;
+        celdaID.innerText = nuevaCategoria.id;
+        celdaNombre.innerText = nuevaCategoria.nombre;
 
-    document.getElementById('nombreCategoria').value = '';
-    actualizarSelect()
+        document.getElementById('nombreCategoria').value = '';
+
+        actualizarSelect()
+    } else {
+        alert('Por favor, ingrese un nombre de categoría.');
+    }
 }
 
 function actualizarSelect() {
@@ -42,48 +47,53 @@ function agregarProducto() {
     var categoriaProducto = document.getElementById('categoriaProducto').value;
     var imagenInput = document.getElementById('imagenInput');
 
-    var nuevoProducto = {
-        id: productos.length + 1,
-        nombre: nombreProducto.trim(),
-        precio: precioProducto.trim(),
-        descripcion: descripcionProducto.trim(),
-        categoria: categoriaProducto,
-        imagen: imagenes.length + 1
-    };
-    productos.push(nuevoProducto);
+    if (nombreProducto.trim() !== '' && categoriaProducto !== '' && precioProducto !== '' && imagenInput.files.length > 0) {
+        var nuevoProducto = {
+            id: productos.length + 1,
+            nombre: nombreProducto.trim(),
+            precio: precioProducto.trim(),
+            descripcion: descripcionProducto.trim(),
+            categoria: categoriaProducto,
+            imagen: imagenes.length + 1
+        };
+        productos.push(nuevoProducto);
 
-    var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
-    var fila = tablaProductos.insertRow(tablaProductos.length);
-    celdaNombre = fila.insertCell(0);
-    celdaPrecio = fila.insertCell(1);
-    celdaDescripcion = fila.insertCell(2);
-    celdaCategoria = fila.insertCell(3);
-    celdaImagen = fila.insertCell(4);
-    celdaAcciones = fila.insertCell(5).innerHTML = `<input class="submit" type="button" onClick="Editar(this)" value="Editar" >
-                                            <input class="submit" type="button" onClick="Borrar(this)" value="Borrar" >
-                                            <input class="submit" type="button" onClick="Mostrar(this)" value="Mostrar" >`
+        var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
+        var fila = tablaProductos.insertRow(tablaProductos.length);
+        celdaNombre = fila.insertCell(0);
+        celdaPrecio = fila.insertCell(1);
+        celdaDescripcion = fila.insertCell(2);
+        celdaCategoria = fila.insertCell(3);
+        celdaImagen = fila.insertCell(4);
+        celdaAcciones = fila.insertCell(5).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(this)" value="Editar" >
+                                            <input class="btn btn-danger" type="button" onClick="Borrar(this)" value="Borrar" >
+                                            <input class="btn btn-info" type="button" onClick="Mostrar(this)" value="Mostrar" >`
 
-    celdaNombre.innerText = nuevoProducto.nombre;
-    celdaPrecio.innerText = nuevoProducto.precio;
-    // Para la descripción, solo mostramos un fragmento
-    celdaDescripcion.innerText = descripcionProducto.substring(0, 20) + '...';
-    celdaCategoria.innerText = nuevoProducto.categoria;
+        celdaNombre.innerText = nuevoProducto.nombre;
+        celdaPrecio.innerText = nuevoProducto.precio;
+        // Para la descripción, solo mostramos un fragmento
+        celdaDescripcion.innerText = descripcionProducto.substring(0, 20) + '...';
+        celdaCategoria.innerText = nuevoProducto.categoria;
 
-    var imagen = document.createElement('img');
-    imagen.src = URL.createObjectURL(imagenInput.files[0]);
-    imagen.style.maxWidth = '100px';
-    imagen.style.height = 'auto';
-    celdaImagen.appendChild(imagen);
+        var imagen = document.createElement('img');
+        imagen.src = URL.createObjectURL(imagenInput.files[0]);
+        imagen.style.maxWidth = '100px';
+        imagen.style.height = 'auto';
+        celdaImagen.appendChild(imagen);
 
-    var nuevaImagen = {
-        id: imagenes.length + 1,
-        url: imagen.src,
-        idCategoria: categoriaProducto
-    };
-    imagenes.push(nuevaImagen);
+        var nuevaImagen = {
+            id: imagenes.length + 1,
+            url: imagen.src,
+            idCategoria: categoriaProducto
+        };
+        imagenes.push(nuevaImagen);
 
-    actualizarSelect();
-    VaciarCampos();
+        actualizarSelect();
+        VaciarCampos();
+    }
+    else {
+        alert('Por favor, complete todos los campos requeridos.');
+    }
 }
 
 function Mostrar(button) {

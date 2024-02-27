@@ -38,7 +38,7 @@
                     <h2 class="mb-4">Agregar Categoría</h2>
                     <div class="form-group">
                         <label for="nombreCategoria">Nombre</label>
-                        <input type="text" class="form-control" placeholder="Nombre de la categoría" id="nombreCategoria">
+                        <input type="text" class="form-control" placeholder="Nombre de la categoría" id="nombreCategoria" required>
                     </div>
                     <br>
                     <button type="button" class="btn btn-primary mr-3" onclick="agregarCategoria()">Agregar Categoría</button>
@@ -87,8 +87,8 @@
                         <input type="file" class="form-control-file" id="imagenInput" accept="image/*" required>
                     </div>
                     <br>
-                    <button type="button" class="btn btn-primary mr-3" onclick="agregarProducto()">Agregar Producto</button>
-                    <button type="button" class="btn btn-primary" onclick="Actualizar()">Guardar Cambios</button>
+                    <button type="submit" class="btn btn-primary mr-3" onclick="agregarProducto()">Agregar Producto</button>
+                    <button type="submit" class="btn btn-primary" onclick="Actualizar()">Guardar Cambios</button>
                 </form>
             </div>
     </div>
