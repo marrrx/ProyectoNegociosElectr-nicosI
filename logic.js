@@ -19,7 +19,7 @@ function agregarCategoria() {
         var filacategoria = tablaCategorias.insertRow(tablaCategorias.length);
         celdaID = filacategoria.insertCell(0);
         celdaNombre = filacategoria.insertCell(1);
-        celdaAcciones = filacategoria.insertCell(2).innerHTML = `<input class="btn btn-warning" type="button" onClick="EditarCategoria(this)" value="Editar" >
+        celdaAcciones = filacategoria.insertCell(2).innerHTML = `<input class="btn btn-warning" type="button" onClick="EditarCategoria(${categorias.length - 1}, this)" value="Editar" >
                                             <input class="btn btn-danger" type="button" onClick="BorrarCategoria(this)" value="Borrar" >`
 
         celdaID.innerText = nuevaCategoria.id;
@@ -69,7 +69,7 @@ function agregarProducto() {
         celdaNombre = fila.insertCell(1);
         celdaPrecio = fila.insertCell(2);
         celdaCategoria = fila.insertCell(3);
-        celdaAcciones = fila.insertCell(4).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(${productos.length - 1})" value="Editar" >
+        celdaAcciones = fila.insertCell(4).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(${productos.length - 1}, this)" value="Editar" >
                                             <input class="btn btn-danger" type="button" onClick="Borrar(this)" value="Borrar" >
                                             <input class="btn btn-info" type="button" onclick="abrirVentana(${productos.length - 1})" value="Mostrar" >`
         celdaID.innerText = nuevoProducto.id;
@@ -122,40 +122,81 @@ function VaciarCampos() {
     document.getElementById("imagenInput").value = ""
 }
 
-function Editar(indice) {
+/////////PRODUCTOS//////////////
+function Editar(indice, td) {
     producto = productos[indice]
     document.getElementById("nombreProducto").value = producto.nombre
     document.getElementById("precioProducto").value = producto.precio
     document.getElementById("descripcionProducto").value = producto.descripcion
     document.getElementById("categoriaProducto").value = producto.categoria
     document.getElementById("imagenInput").value = ""
-}
 
-function EditarCategoria(td) {
-    filacategoria = td.parentElement.parentElement
-    document.getElementById("nombreCategoria").value = filacategoria.cells[1].innerHTML
+    fila = td.parentElement.parentElement
+    document.getElementById("nombreProducto").value = fila.cells[1].innerHTML
+    document.getElementById("precioProducto").value = fila.cells[2].innerHTML
+    document.getElementById("categoriaProducto").value = fila.cells[3].innerHTML
 }
-
 function Actualizar(indice) {
     producto = productos[indice]
+    imagen = imagenes[indice];
 
     var nombreProducto = document.getElementById('nombreProducto').value;
     var precioProducto = document.getElementById('precioProducto').value;
     var categoriaProducto = document.getElementById('categoriaProducto').value;
+    var descripcionProducto = document.getElementById('descripcionProducto').value;
+    var imagenInput = document.getElementById('imagenInput');
+
 
     fila.cells[1].innerHTML = nombreProducto
     fila.cells[2].innerHTML = precioProducto
     fila.cells[3].innerHTML = categoriaProducto
 
-    
+
+
+    producto.nombre = nombreProducto;
+    producto.precio = precioProducto;
+    producto.descripcion = descripcionProducto;
+    producto.categoria = categoriaProducto;
+
+    var imagennueva = document.createElement('img');
+    imagennueva.src = URL.createObjectURL(imagenInput.files[0]);
+    imagen.url = "";
+    imagen.url = imagennueva.src;
+
+
+
+    actualizarSelect();
+
     VaciarCampos();
 }
+//////////////////////////////////
 
-function ActualizarCategoria() {
+
+
+
+//////////CATEGORIAS/////////
+function EditarCategoria(indice, td) {
+    categoria = categorias[indice]
+    document.getElementById("nombreCategoria").value = categoria.nombre
+
+    filacategoria = td.parentElement.parentElement
+    document.getElementById("nombreCategoria").value = filacategoria.cells[1].innerHTML
+
+}
+
+function ActualizarSelectCategoria(indice) {
+    categoria = categorias[indice];
     var nombreCategoria = document.getElementById('nombreCategoria').value;
+    categoria.nombre = nombreCategoria;
     filacategoria.cells[1].innerHTML = nombreCategoria
     document.getElementById('nombreCategoria').value = '';
+    actualizarSelect();
 }
+////////////////////////////////////
+
+
+
+
 
 function Borrar(button) {
     var fila = button.closest('tr');

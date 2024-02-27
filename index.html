@@ -50,7 +50,7 @@
                     <br>
                     <button type="button" class="btn btn-primary mr-3" onclick="agregarCategoria()">Agregar
                         Categoría</button>
-                    <button type="button" class="btn btn-primary" onclick="ActualizarCategoria()">Guardar
+                    <button type="button" class="btn btn-primary" onclick="ActualizarSelectCategoria(`${categorias.length - 1}`)">Guardar
                         Cambios</button>
                 </form>
                 <br>
@@ -100,7 +100,7 @@
                     <br>
                     <button type="submit" class="btn btn-primary mr-3" onclick="agregarProducto()">Agregar
                         Producto</button>
-                    <button type="submit" class="btn btn-primary" onclick="Actualizar()">Guardar Cambios</button>
+                    <button type="submit" class="btn btn-primary" onclick="Actualizar(`${productos.length - 1}`)">Guardar Cambios</button>
                 </form>
             </div>
         </div>
