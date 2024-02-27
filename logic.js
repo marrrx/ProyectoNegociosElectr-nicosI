@@ -65,27 +65,22 @@ function agregarProducto() {
 
         var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
         var fila = tablaProductos.insertRow(tablaProductos.length);
-        celdaNombre = fila.insertCell(0);
-        celdaPrecio = fila.insertCell(1);
-        celdaDescripcion = fila.insertCell(2);
+        celdaID = fila.insertCell(0);
+        celdaNombre = fila.insertCell(1);
+        celdaPrecio = fila.insertCell(2);
         celdaCategoria = fila.insertCell(3);
-        celdaImagen = fila.insertCell(4);
-        celdaAcciones = fila.insertCell(5).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(this)" value="Editar" >
-                                            <input class="btn btn-danger" type="button" onClick="Borrar(this)" value="Borrar" >
-                                            <input class="btn btn-info" type="button" onClick="Mostrar(this)" value="Mostrar" >`
-
+        celdaAcciones = fila.insertCell(4).innerHTML = `<input class="submit" type="button" onClick="Editar(${productos.length - 1})" value="Editar" >
+                                            <input class="submit" type="button" onClick="Borrar(this)" value="Borrar" >
+                                            <input class="submit" type="button" onclick="abrirVentana(${productos.length - 1})" value="Mostrar" >`
+        celdaID.innerText = nuevoProducto.id;
         celdaNombre.innerText = nuevoProducto.nombre;
         celdaPrecio.innerText = nuevoProducto.precio;
-        // Para la descripción, solo mostramos un fragmento
-        celdaDescripcion.innerText = descripcionProducto.substring(0, 20) + '...';
         celdaCategoria.innerText = nuevoProducto.categoria;
 
         var imagen = document.createElement('img');
         imagen.src = URL.createObjectURL(imagenInput.files[0]);
         imagen.style.maxWidth = '100px';
         imagen.style.height = 'auto';
-        celdaImagen.appendChild(imagen);
-
         var nuevaImagen = {
             id: idImagenes,
             url: imagen.src,
@@ -102,32 +97,22 @@ function agregarProducto() {
     }
 }
 
-function Mostrar(button) {
-    var fila = button.closest('tr');
-    var descripcionCell = fila.cells[2];
-    var precioCell = fila.cells[1];
-    var categoriaCell = fila.cells[3];
-    var imagenCell = fila.cells[4];
+function abrirVentana(indice) {
 
-    if (descripcionCell.classList.contains('mostrado')) {
-        // Si ya está mostrado, lo ocultamos
-        descripcionCell.classList.remove('mostrado');
-        precioCell.style.display = 'none';
-        categoriaCell.style.display = 'none';
-        imagenCell.style.display = 'none';
+    var producto = productos[indice];
+    var imagen = imagenes[indice];
 
-        descripcionCell.innerText = productos[fila.rowIndex - 1].descripcion.substring(0, 1) + '...';
-    } else {
-        // Si está oculto, lo mostramos completamente
-        descripcionCell.classList.add('mostrado');
-        precioCell.style.display = '';
-        categoriaCell.style.display = '';
-        imagenCell.style.display = '';
+    let imgElement = document.createElement('img');
+    imgElement.src = imagen.url;
+    imgElement.style.maxWidth = '100px';
+    imgElement.style.height = 'auto';
 
-        descripcionCell.innerText = productos[fila.rowIndex - 1].descripcion;
-    }
+    $('#ventanaEmergenteLabel').text(producto.nombre);
+    $('#contenidoVentana').html(`<p>Precio: ${producto.precio}</p> <p>Descripción: ${producto.descripcion}</p> <p>Categoria: ${producto.categoria}</p>`);
+    $('#contenidoVentana').append(imgElement);
+
+    $('#ventanaEmergente').modal('show');
 }
-
 
 function VaciarCampos() {
     document.getElementById("nombreProducto").value = ""
@@ -137,13 +122,13 @@ function VaciarCampos() {
     document.getElementById("imagenInput").value = ""
 }
 
-function Editar(td) {
-    fila = td.parentElement.parentElement
-    document.getElementById("nombreProducto").value = fila.cells[0].innerHTML
-    document.getElementById("precioProducto").value = fila.cells[1].innerHTML
-    document.getElementById("descripcionProducto").value = fila.cells[2].innerHTML
-    document.getElementById("categoriaProducto").value = fila.cells[3].innerHTML
-    document.getElementById("imagenInput").value = fila.cells[4].innerHTML
+function Editar(indice) {
+    producto = productos[indice]
+    document.getElementById("nombreProducto").value = producto.nombre
+    document.getElementById("precioProducto").value = producto.precio
+    document.getElementById("descripcionProducto").value = producto.descripcion
+    document.getElementById("categoriaProducto").value = producto.categoria
+    document.getElementById("imagenInput").value = ""
 }
 
 function EditarCategoria(td) {
@@ -151,24 +136,18 @@ function EditarCategoria(td) {
     document.getElementById("nombreCategoria").value = filacategoria.cells[1].innerHTML
 }
 
-function Actualizar() {
+function Actualizar(indice) {
+    producto = productos[indice]
+
     var nombreProducto = document.getElementById('nombreProducto').value;
     var precioProducto = document.getElementById('precioProducto').value;
-    var descripcionProducto = document.getElementById('descripcionProducto').value;
     var categoriaProducto = document.getElementById('categoriaProducto').value;
-    var imagenInput = document.getElementById('imagenInput');
 
-    fila.cells[0].innerHTML = nombreProducto
-    fila.cells[1].innerHTML = precioProducto
-    fila.cells[2].innerHTML = descripcionProducto.substring(0, 20) + '...'
+    fila.cells[1].innerHTML = nombreProducto
+    fila.cells[2].innerHTML = precioProducto
     fila.cells[3].innerHTML = categoriaProducto
 
-    let imgElement = document.createElement('img');
-    imgElement.src = URL.createObjectURL(imagenInput.files[0]);
-    imgElement.style.maxWidth = '100px';
-    imgElement.style.height = 'auto';
-    fila.cells[4].innerHTML = "";
-    fila.cells[4].appendChild(imgElement);
+    
     VaciarCampos();
 }
 
