@@ -1,15 +1,19 @@
 var categorias = [];
 var productos = [];
 var imagenes = [];
+var idProductos = 0;
+var idCategorias = 0;
+var idImagenes = 0;
 
 function agregarCategoria() {
     var nombreCategoria = document.getElementById('nombreCategoria').value;
     if (nombreCategoria.trim() !== '') {
         var nuevaCategoria = {
-            id: categorias.length + 1,
+            id: ++idCategorias,
             nombre: nombreCategoria
         };
         categorias.push(nuevaCategoria);
+        console.log(categorias)
 
         var tablaCategorias = document.getElementById('categorias').getElementsByTagName('tbody')[0];
         var filacategoria = tablaCategorias.insertRow(tablaCategorias.length);
@@ -46,17 +50,18 @@ function agregarProducto() {
     var descripcionProducto = document.getElementById('descripcionProducto').value;
     var categoriaProducto = document.getElementById('categoriaProducto').value;
     var imagenInput = document.getElementById('imagenInput');
-
+    
     if (nombreProducto.trim() !== '' && categoriaProducto !== '' && precioProducto !== '' && imagenInput.files.length > 0) {
         var nuevoProducto = {
-            id: productos.length + 1,
+            id: ++idProductos,
             nombre: nombreProducto.trim(),
             precio: precioProducto.trim(),
             descripcion: descripcionProducto.trim(),
             categoria: categoriaProducto,
-            imagen: imagenes.length + 1
+            imagen: ++idImagenes
         };
         productos.push(nuevoProducto);
+        console.log(productos);
 
         var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
         var fila = tablaProductos.insertRow(tablaProductos.length);
@@ -82,11 +87,12 @@ function agregarProducto() {
         celdaImagen.appendChild(imagen);
 
         var nuevaImagen = {
-            id: imagenes.length + 1,
+            id: idImagenes,
             url: imagen.src,
             idCategoria: categoriaProducto
         };
         imagenes.push(nuevaImagen);
+        console.log(imagenes);
 
         actualizarSelect();
         VaciarCampos();
