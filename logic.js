@@ -38,7 +38,7 @@ function actualizarSelect() {
     selectCategorias.innerHTML = '';
     for (var i = 0; i < categorias.length; i++) {
         var opcion = document.createElement('option');
-        opcion.value = categorias[i].id;
+        opcion.value = categorias[i].nombre;
         opcion.text = categorias[i].nombre;
         selectCategorias.add(opcion);
     }
@@ -50,7 +50,7 @@ function agregarProducto() {
     var descripcionProducto = document.getElementById('descripcionProducto').value;
     var categoriaProducto = document.getElementById('categoriaProducto').value;
     var imagenInput = document.getElementById('imagenInput');
-    
+
     if (nombreProducto.trim() !== '' && categoriaProducto !== '' && precioProducto !== '' && imagenInput.files.length > 0) {
         var nuevoProducto = {
             id: ++idProductos,
@@ -72,10 +72,13 @@ function agregarProducto() {
         celdaAcciones = fila.insertCell(4).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(${productos.length - 1}, this)" value="Editar" >
                                             <input class="btn btn-danger" type="button" onClick="Borrar(this)" value="Borrar" >
                                             <input class="btn btn-info" type="button" onclick="abrirVentana(${productos.length - 1})" value="Mostrar" >`
-        celdaID.innerText = nuevoProducto.id;
-        celdaNombre.innerText = nuevoProducto.nombre;
-        celdaPrecio.innerText = nuevoProducto.precio;
-        celdaCategoria.innerText = nuevoProducto.categoria;
+                                            
+        var indice = productos.length - 1;
+        productoN = productos[indice]
+        celdaID.innerText = productoN.id;
+        celdaNombre.innerText = productoN.nombre;
+        celdaPrecio.innerText = productoN.precio;
+        celdaCategoria.innerText = productoN.categoria;
 
         var imagen = document.createElement('img');
         imagen.src = URL.createObjectURL(imagenInput.files[0]);
