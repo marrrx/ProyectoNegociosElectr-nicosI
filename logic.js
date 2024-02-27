@@ -69,9 +69,9 @@ function agregarProducto() {
         celdaNombre = fila.insertCell(1);
         celdaPrecio = fila.insertCell(2);
         celdaCategoria = fila.insertCell(3);
-        celdaAcciones = fila.insertCell(4).innerHTML = `<input class="submit" type="button" onClick="Editar(${productos.length - 1})" value="Editar" >
-                                            <input class="submit" type="button" onClick="Borrar(this)" value="Borrar" >
-                                            <input class="submit" type="button" onclick="abrirVentana(${productos.length - 1})" value="Mostrar" >`
+        celdaAcciones = fila.insertCell(4).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(${productos.length - 1})" value="Editar" >
+                                            <input class="btn btn-danger" type="button" onClick="Borrar(this)" value="Borrar" >
+                                            <input class="btn btn-info" type="button" onclick="abrirVentana(${productos.length - 1})" value="Mostrar" >`
         celdaID.innerText = nuevoProducto.id;
         celdaNombre.innerText = nuevoProducto.nombre;
         celdaPrecio.innerText = nuevoProducto.precio;
