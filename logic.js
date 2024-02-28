@@ -4,6 +4,9 @@ var imagenes = [];
 var idProductos = 0;
 var idCategorias = 0;
 var idImagenes = 0;
+var indiceCategoriaEditada = null;
+var indiceProductoEditado = null;
+
 
 function agregarCategoria() {
     var nombreCategoria = document.getElementById('nombreCategoria').value;
@@ -69,16 +72,15 @@ function agregarProducto() {
         celdaNombre = fila.insertCell(1);
         celdaPrecio = fila.insertCell(2);
         celdaCategoria = fila.insertCell(3);
-        celdaAcciones = fila.insertCell(4).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(${productos.length - 1}, this)" value="Editar" >
+        celdaAcciones = fila.insertCell(4).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(${productos.length - 1},this)" value="Editar" >
                                             <input class="btn btn-danger" type="button" onClick="Borrar(this)" value="Borrar" >
                                             <input class="btn btn-info" type="button" onclick="abrirVentana(${productos.length - 1})" value="Mostrar" >`
-                                            
-        var indice = productos.length - 1;
-        productoN = productos[indice]
-        celdaID.innerText = productoN.id;
-        celdaNombre.innerText = productoN.nombre;
-        celdaPrecio.innerText = productoN.precio;
-        celdaCategoria.innerText = productoN.categoria;
+
+
+        celdaID.innerText = nuevoProducto.id;
+        celdaNombre.innerText = nuevoProducto.nombre;
+        celdaPrecio.innerText = nuevoProducto.precio;
+        celdaCategoria.innerText = nuevoProducto.categoria;
 
         var imagen = document.createElement('img');
         imagen.src = URL.createObjectURL(imagenInput.files[0]);
@@ -133,15 +135,16 @@ function Editar(indice, td) {
     document.getElementById("descripcionProducto").value = producto.descripcion
     document.getElementById("categoriaProducto").value = producto.categoria
     document.getElementById("imagenInput").value = ""
+    indiceProductoEditado = indice;
 
     fila = td.parentElement.parentElement
     document.getElementById("nombreProducto").value = fila.cells[1].innerHTML
     document.getElementById("precioProducto").value = fila.cells[2].innerHTML
     document.getElementById("categoriaProducto").value = fila.cells[3].innerHTML
 }
-function Actualizar(indice) {
-    producto = productos[indice]
-    imagen = imagenes[indice];
+function Actualizar() {
+    producto = productos[indiceProductoEditado]
+    imagen = imagenes[indiceProductoEditado];
 
     var nombreProducto = document.getElementById('nombreProducto').value;
     var precioProducto = document.getElementById('precioProducto').value;
@@ -181,14 +184,15 @@ function Actualizar(indice) {
 function EditarCategoria(indice, td) {
     categoria = categorias[indice]
     document.getElementById("nombreCategoria").value = categoria.nombre
+    indiceCategoriaEditada = indice;
 
     filacategoria = td.parentElement.parentElement
     document.getElementById("nombreCategoria").value = filacategoria.cells[1].innerHTML
 
 }
 
-function ActualizarSelectCategoria(indice) {
-    categoria = categorias[indice];
+function ActualizarSelectCategoria() {
+    categoria = categorias[indiceCategoriaEditada];
     var nombreCategoria = document.getElementById('nombreCategoria').value;
     categoria.nombre = nombreCategoria;
     filacategoria.cells[1].innerHTML = nombreCategoria
