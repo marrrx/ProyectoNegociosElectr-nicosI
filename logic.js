@@ -7,7 +7,6 @@ var idImagenes = 0;
 var indiceCategoriaEditada = null;
 var indiceProductoEditado = null;
 
-
 function agregarCategoria() {
     var nombreCategoria = document.getElementById('nombreCategoria').value;
     if (nombreCategoria.trim() !== '') {
@@ -41,7 +40,7 @@ function actualizarSelect() {
     selectCategorias.innerHTML = '';
     for (var i = 0; i < categorias.length; i++) {
         var opcion = document.createElement('option');
-        opcion.value = categorias[i].nombre;
+        opcion.value = categorias[i].id;
         opcion.text = categorias[i].nombre;
         selectCategorias.add(opcion);
     }
@@ -70,16 +69,13 @@ function agregarProducto() {
         var fila = tablaProductos.insertRow(tablaProductos.length);
         celdaID = fila.insertCell(0);
         celdaNombre = fila.insertCell(1);
-        celdaPrecio = fila.insertCell(2);
-        celdaCategoria = fila.insertCell(3);
-        celdaAcciones = fila.insertCell(4).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(${productos.length - 1},this)" value="Editar" >
+        celdaCategoria = fila.insertCell(2);
+        celdaAcciones = fila.insertCell(3).innerHTML = `<input class="btn btn-warning" type="button" onClick="Editar(${productos.length - 1},this)" value="Editar" >
                                             <input class="btn btn-danger" type="button" onClick="Borrar(this)" value="Borrar" >
                                             <input class="btn btn-info" type="button" onclick="abrirVentana(${productos.length - 1})" value="Mostrar" >`
 
-
         celdaID.innerText = nuevoProducto.id;
         celdaNombre.innerText = nuevoProducto.nombre;
-        celdaPrecio.innerText = nuevoProducto.precio;
         celdaCategoria.innerText = nuevoProducto.categoria;
 
         var imagen = document.createElement('img');
@@ -103,7 +99,6 @@ function agregarProducto() {
 }
 
 function abrirVentana(indice) {
-
     var producto = productos[indice];
     var imagen = imagenes[indice];
 
@@ -142,6 +137,7 @@ function Editar(indice, td) {
     document.getElementById("precioProducto").value = fila.cells[2].innerHTML
     document.getElementById("categoriaProducto").value = fila.cells[3].innerHTML
 }
+
 function Actualizar() {
     producto = productos[indiceProductoEditado]
     imagen = imagenes[indiceProductoEditado];
@@ -152,12 +148,9 @@ function Actualizar() {
     var descripcionProducto = document.getElementById('descripcionProducto').value;
     var imagenInput = document.getElementById('imagenInput');
 
-
     fila.cells[1].innerHTML = nombreProducto
     fila.cells[2].innerHTML = precioProducto
     fila.cells[3].innerHTML = categoriaProducto
-
-
 
     producto.nombre = nombreProducto;
     producto.precio = precioProducto;
@@ -169,16 +162,10 @@ function Actualizar() {
     imagen.url = "";
     imagen.url = imagennueva.src;
 
-
-
     actualizarSelect();
-
     VaciarCampos();
 }
 //////////////////////////////////
-
-
-
 
 //////////CATEGORIAS/////////
 function EditarCategoria(indice, td) {
@@ -188,7 +175,6 @@ function EditarCategoria(indice, td) {
 
     filacategoria = td.parentElement.parentElement
     document.getElementById("nombreCategoria").value = filacategoria.cells[1].innerHTML
-
 }
 
 function ActualizarSelectCategoria() {
@@ -200,10 +186,6 @@ function ActualizarSelectCategoria() {
     actualizarSelect();
 }
 ////////////////////////////////////
-
-
-
-
 
 function Borrar(button) {
     var fila = button.closest('tr');
@@ -226,7 +208,7 @@ function BorrarCategoria(button) {
 
     var tablaProductos = document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
     for (var i = tablaProductos.rows.length - 1; i >= 0; i--) {
-        if (tablaProductos.rows[i].cells[3].innerText === categoriaID.toString()) {
+        if (tablaProductos.rows[i].cells[2].innerText === categoriaID.toString()) {
             tablaProductos.deleteRow(i);
         }
     }
