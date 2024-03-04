@@ -149,8 +149,7 @@ function Actualizar() {
     var imagenInput = document.getElementById('imagenInput');
 
     fila.cells[1].innerHTML = nombreProducto
-    fila.cells[2].innerHTML = precioProducto
-    fila.cells[3].innerHTML = categoriaProducto
+    fila.cells[2].innerHTML = categoriaProducto
 
     producto.nombre = nombreProducto;
     producto.precio = precioProducto;
